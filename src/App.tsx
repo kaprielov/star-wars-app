@@ -1,26 +1,40 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { CssBaseline } from '@mui/material';
+import store from './store/store';
+import HomePage from './components/HomePage/HomePage';
+import CharacterDetails from './components/CharacterDetails/CharacterDetails';
 
-function App() {
+const saveStateToLocalStorage = () => {
+  const state = store.getState();
+  localStorage.setItem('savedCharacter', JSON.stringify(state.character.character));
+};
+
+window.onbeforeunload = () => {
+  saveStateToLocalStorage();
+};
+
+window.onclick = () => {
+  const state = store.getState();
+  console.log("🚀 ~ file: App.tsx:11 ~ saveStateToLocalStorage ~ state:", state)
+};
+
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <Router>
+        <CssBaseline />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/character/:id"
+            element={<CharacterDetails />}
+          />
+        </Routes>
+      </Router>
+    </Provider>
   );
-}
+};
 
 export default App;
