@@ -44,8 +44,9 @@ const CharacterEditForm: React.FC<CharacterEditFormProps> = ({ characterId }) =>
     <form onSubmit={handleSubmit}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          {fields.map((field, index) => (
+          {fields.map((field) => (
             <TextField
+              key={field.name}
               style={{ marginBottom: '16px' }}
               label={field.label}
               name={field.name}
