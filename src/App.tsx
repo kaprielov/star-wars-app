@@ -8,16 +8,11 @@ import CharacterDetails from './components/CharacterDetails/CharacterDetails';
 
 const saveStateToLocalStorage = () => {
   const state = store.getState();
-  localStorage.setItem('savedCharacter', JSON.stringify(state.character.character));
+  localStorage.setItem('savedCharacters', JSON.stringify(state.character.characters));
 };
 
 window.onbeforeunload = () => {
   saveStateToLocalStorage();
-};
-
-window.onclick = () => {
-  const state = store.getState();
-  console.log("🚀 ~ file: App.tsx:11 ~ saveStateToLocalStorage ~ state:", state)
 };
 
 const App: React.FC = () => {

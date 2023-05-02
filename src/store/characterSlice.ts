@@ -2,13 +2,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Details } from '../common/constants/types';
 
 interface CharacterState {
-  character: Details | null;
+  characters: { [key: string]: Details };
 }
 
 const getInitialState = (): CharacterState => {
-  const savedCharacter = localStorage.getItem('savedCharacter');
+  const savedCharacters = localStorage.getItem('savedCharacters');
   return {
-    character: savedCharacter ? JSON.parse(savedCharacter) : null,
+    characters: savedCharacters ? JSON.parse(savedCharacters) : {},
   };
 };
 
@@ -18,13 +18,14 @@ const characterSlice = createSlice({
   name: 'character',
   initialState,
   reducers: {
-    setCharacter: (state, action: PayloadAction<Details | null>) => {
-      state.character = action.payload;
+    setCharacter: (state, action: PayloadAction<{ id: string; details: Details }>) => {
+      state.characters[action.payload.id] = action.payload.details;
     },
-    updateCharacter: (state, action: PayloadAction<Partial<Details>>) => {
-      if (state.character) {
-        state.character = { ...state.character, ...action.payload };
-        localStorage.setItem('savedCharacter', JSON.stringify(state.character));
+    updateCharacter: (state, action: PayloadAction<{ id: string; details: Partial<Details> }>) => {
+      const id = action.payload.id;
+      if (state.characters[id]) {
+        state.characters[id] = { ...state.characters[id], ...action.payload.details };
+        localStorage.setItem('savedCharacters', JSON.stringify(state.characters));
       }
     },
   },

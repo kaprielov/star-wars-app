@@ -20,7 +20,7 @@ const HomePage: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const currentPage = Number(searchParams.get("page")) || 1;
+  const currentPage = Number(searchParams.get('page')) || 1;
 
   useEffect(() => {
     const fetchCharacters = async () => {
